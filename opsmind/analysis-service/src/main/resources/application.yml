@@ -1,0 +1,13 @@
+server: {port: 8082}
+spring:
+  application: {name: analysis-service}
+  datasource: {url: jdbc:h2:file:./data/opsmind-analysis,username: sa,password: ''}
+  jpa: {hibernate: {ddl-auto: update}, open-in-view: false}
+  kafka: {bootstrap-servers: localhost:9092, producer: {key-serializer: org.apache.kafka.common.serialization.StringSerializer, value-serializer: org.apache.kafka.common.serialization.StringSerializer}}
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY:}
+      chat: {model: gpt-5-mini}
+opsmind: {ai: {enabled: false}}
+eureka: {client: {serviceUrl: {defaultZone: http://localhost:8761/eureka/}}}
+management: {endpoints: {web: {exposure: {include: health,info,metrics}}}}
