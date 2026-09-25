@@ -1,0 +1,31 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: user-service
+              uri: lb://user-service
+              predicates: [Path=/api/users/**]
+            - id: analysis-service
+              uri: lb://analysis-service
+              predicates: [Path=/api/analysis/**]
+            - id: deployment-service
+              uri: lb://deployment-service
+              predicates: [Path=/api/deployments/**]
+            - id: legacy-service
+              uri: lb://legacy-service
+              predicates: [Path=/legacy/**]
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway
